@@ -8,7 +8,6 @@ COPY . /app
 
 
 RUN apt update || true
-# # need to run on /bin/bash mode
 RUN apt install -y software-properties-common
 
 RUN add-apt-repository ppa:deadsnakes/ppa
@@ -21,8 +20,6 @@ libgtkglext1-dev libatlas-base-dev gfortran libeigen3-dev python3-dev python3-nu
 
 
 RUN python3.8 -m pip install --upgrade pip
-#RUN python3.7 -m pip install numpy
-#RUN python3.7 -m pip install --upgrade cython
 RUN python3.8 -m pip install -r requirements.txt
 
 WORKDIR /app
@@ -53,20 +50,6 @@ WORKDIR /app
 RUN wget https://www.dropbox.com/s/4j4z58wuv8o0mfz/models.zip && unzip models.zip
 
 RUN rm -rf opencv opencv_contrib models.zip
-#RUN echo "/usr/local/lib" >> /etc/ld.so.conf.d/opencv.conf
-#RUN ldconfig
-#RUN python3.7 -m pip install -r requirements.txt
-
-# docker run --gpus all -it -v  c:\Users\ge79pih\color\color:/app/color raft_optical_map_running /bin/bash
-#docker run -e MODEL_PATH=models/my_model.pth \
-#           -e DATASET_PATH=/datasets \
-#           -e OUTPUT_PATH=/output \
-#           -v c:\Users\ge79pih\color\color\custom_png_data:/datasets \
-#           -v c:\Users\ge79pih\color\color\demo_output:/output \
-#           --gpus all
-#           raft
 
 CMD sh -c 'python3.8 evaluate.py --model=$MODEL_PATH --dataset-path=$DATASET_PATH --output-path=$OUTPUT_PATH'
-
-#CMD ["python3.8", "evaluate.py", "--model=$MODEL_PATH", "--dataset-path=$DATASET_PATH", "--output-path=$OUTPUT_PATH"]
 
